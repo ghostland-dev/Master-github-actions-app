@@ -1,0 +1,48 @@
+name: CICD Pipline
+
+env:
+    SERVER_IP: "54.37.40.147"
+    SERVER_USER: "root"
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install node js
+        uses: actions/setup-node@v3
+        with:
+          cache: "npm"
+          cache-dependency-path: ./server/package.lock.json
+
+      - name: install indepancies
+        run: npm ci --cache --prefer-offline
+
+      - name: execute les testes
+        run: npm run test:ci
+
+      - name: verifier le code
+        run: npm run lint
+
+      - name: verifier les venerabilité des dependances
+        run: npm audit
+  deploy:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout le code
+        uses: actions/checkout@v4
+      - name: déployer sur le server
+        run: | 
+            eval $(ss-agent -s)
+            ssh-add - <<<  "${{ secrets.SSH_KEY_VPS }}"
+            ssh-keyscan -H $SERVER_IP >> -/.ssh/known_hosts
+            scp -r ./server $SERVER_USER@SERVER_IP:/var/www
+            sh $SERVER_USER@SERVER_IP "cd/var/www/server && npm install --omit=dev "
+            sh $SERVER_USER@SERVER_IP "cd/var/www/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
