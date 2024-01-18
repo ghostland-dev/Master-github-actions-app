@@ -15,12 +15,14 @@ jobs:
         uses: actions/checkout@v4
       - name: install node js
         uses: actions/setup-node@v3
-        with:
-          cache: npm
-          cache-dependency-path: ./server/package.lock.json
       - name: install indepancies
-        working-directory: ./server
+        uses: actions/cache@v3
+        with:
+            path: ./package.lock.json
+            key: ${{ runner.os }}-${{ hashFiles('./package.lock.json') }}
+      - name: caching    
         run: npm ci --cache .npm --prefer-offline
+
       - name: execute les testes
         run: 'npm run test:ci'
       - name: verifier le code
