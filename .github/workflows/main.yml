@@ -3,7 +3,7 @@ name: CI/CD workflow
 
 # Variables d'environnement globales utilisées dans le workflow
 env:
-  SERVER_USER: 'ubuntu' # Utilisateur du serveur
+  SERVER_USER: 'root' # Utilisateur du serveur
   SERVER_IP: '54.37.40.147' # Adresse IP du serveur
 
 # Paramètres pour gérer la concurrence des jobs
