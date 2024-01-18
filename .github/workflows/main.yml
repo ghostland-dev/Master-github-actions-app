@@ -22,7 +22,7 @@ jobs:
           cache-dependency-path: ./server/package.lock.json
 
       - name: install indepancies
-        run: npm ci --cache --prefer-offline
+        run: npm ci --cache .npm --prefer-offline
 
       - name: execute les testes
         run: npm run test:ci
