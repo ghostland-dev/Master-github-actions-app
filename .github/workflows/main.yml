@@ -1,8 +1,8 @@
 name: CICD Pipline
 
 env:
-    SERVER_IP: "54.37.40.147"
-    SERVER_USER: "root"
+  SERVER_IP: "54.37.40.147"
+  SERVER_USER: "root"
 
 on: [push]
 
@@ -39,10 +39,10 @@ jobs:
       - name: Checkout le code
         uses: actions/checkout@v4
       - name: déployer sur le server
-        run: | 
-            eval $(ss-agent -s)
-            ssh-add - <<<  "${{ secrets.SSH_KEY_VPS }}"
-            ssh-keyscan -H $SERVER_IP >> -/.ssh/known_hosts
-            scp -r ./server $SERVER_USER@SERVER_IP:/var/www
-            sh $SERVER_USER@SERVER_IP "cd/var/www/server && npm install --omit=dev "
-            sh $SERVER_USER@SERVER_IP "cd/var/www/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
+        run: |
+          eval $(ss-agent -s)
+          ssh-add - <<<  "${{ secrets.SSH_KEY_VPS }}"
+          ssh-keyscan -H $SERVER_IP >> -/.ssh/known_hosts
+          scp -r ./server $SERVER_USER@SERVER_IP:/var/www
+          sh $SERVER_USER@SERVER_IP "cd/var/www/server && npm install --omit=dev "
+          sh $SERVER_USER@SERVER_IP "cd/var/www/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
