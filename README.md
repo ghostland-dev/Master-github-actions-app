@@ -247,3 +247,11 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 For any inquiries or feedback, please contact Ismail Mouyahada at [ismail-mouyahada@gmail.com](mailto:ismail-mouyahada@gmail.com).
 
  
+
+## Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fghostland-dev%2Fgithub-actions-demo&root-directory=client)
+
+Click the button to deploy your own copy on Vercel in one step.
+
+The app lives in the `client` folder, which the button sets as the Vercel root directory.
